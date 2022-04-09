@@ -1,5 +1,5 @@
 
-
+# default output
 flightsToFrankfurtCount = 0
 flightWithMostPassengers = "The file is empty!"
 firstFlightWithPassengersLess100 = "There is no flight with passengers less than 100."
@@ -8,24 +8,14 @@ airlineWithMostPassengers = "The file is empty!"
 def flightAnalysis():
     try:
         # declare the above variables as global
-        global flightsToFrankfurtCount, flightWithMostPassengeers, firstFlightWithPassengersLess100, airlineWithMostPassengers
+        global flightsToFrankfurtCount, flightWithMostPassengers, firstFlightWithPassengersLess100, airlineWithMostPassengers
 
         # read data from the input file
         flightFile = open("input.txt","r")
 
-        allFlights = []
-        for line in flightFile:
-            # add each line as a tuple
-            flight = line.split()
-            if len(flight) == 3:
-                allFlights.append (
-                    {
-                        "airline" : flight[0],
-                        "destination" : flight[1],
-                        "passengers" : int(flight[2])
-                    }
-                )
-                
+        allFlights = formatFlightsToListForm(flightFile)
+
+        # default output if there are not flights        
         if (len(allFlights) < 1):
             printOutput()
             return
@@ -80,7 +70,6 @@ def flightAnalysis():
         printOutput()
 
     except Exception as e:
-        raise e
         printOutput()
 
 def printOutput():
@@ -88,5 +77,22 @@ def printOutput():
     print (flightWithMostPassengers)
     print (firstFlightWithPassengersLess100)
     print (airlineWithMostPassengers)
+
+def formatFlightsToListForm(flightFile):
+    allFlights = []
+    for line in flightFile:
+        # add each line as a list
+        flight = line.split()
+        if len(flight) == 3:
+            allFlights.append (
+                {
+                    "airline" : flight[0],
+                    "destination" : flight[1],
+                    "passengers" : int(flight[2])
+                }
+            )
+    return allFlights
+        
+
 
 flightAnalysis()
